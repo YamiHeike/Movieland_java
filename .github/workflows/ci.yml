@@ -24,4 +24,4 @@ jobs:
       - name: Grant execute permission for Gradle Wrapper
         run: chmod +x ./gradlew
       - name: Build
-        run:  ./gradlew clean build -Dorg.gradle.java.home=$JAVA_HOME
+        run:  ./gradlew clean build --stacktrace --info
