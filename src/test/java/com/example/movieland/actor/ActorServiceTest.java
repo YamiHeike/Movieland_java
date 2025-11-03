@@ -11,7 +11,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
@@ -27,9 +29,9 @@ public class ActorServiceTest {
     @InjectMocks
     private ActorService actorService;
     private static final List<Actor> ACTORS = List.of(
-            new Actor(ActorId.generated(), "Tom", "Hanks"),
-            new Actor(ActorId.generated(), "Anne", "Hathaway"),
-            new Actor(ActorId.generated(), "Leonardo", "DiCaprio")
+            Actor.from("Tom", "Hanks", LocalDate.of(1956, 7, 9)),
+            Actor.from("Anne", "Hathaway", LocalDate.of(1982, 11, 12)),
+            Actor.from("Leonardo", "DiCaprio", LocalDate.of(1974, 11, 11))
     );
 
     @ParameterizedTest

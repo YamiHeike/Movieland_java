@@ -1,4 +1,4 @@
-package com.example.movieland.actor;
+package com.example.movieland.movie;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-interface ActorRepository extends CrudRepository<Actor, UUID> {
-    Page<Actor> findAll(Pageable pageable);
-    Optional<Actor> findByFirstNameAndLastName(String firstName, String lastName);
+public interface MovieRepository extends CrudRepository<Movie, UUID> {
+    Page<Movie> findAll(Pageable pageable);
+    Optional<Movie> findByTitle(String title);
 }
