@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: movieland
+  data:
+    mongodb:
+      port: 27017
+      uri: mongodb://localhost:27017/movieland
