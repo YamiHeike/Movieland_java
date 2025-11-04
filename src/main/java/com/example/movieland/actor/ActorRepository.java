@@ -13,5 +13,5 @@ import java.util.UUID;
 interface ActorRepository extends CrudRepository<Actor, UUID> {
     Page<Actor> findAll(Pageable pageable);
     Optional<Actor> findByFirstNameAndLastNameIgnoreCase(String firstName, String lastName);
-    Optional<Actor> findByFirstNameAndLastNameAndBirthDateIgnoreCase(String firstName, String lastName, LocalDate birthday);
+    Optional<Actor> findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(String firstName, String lastName, LocalDate birthDate);
 }

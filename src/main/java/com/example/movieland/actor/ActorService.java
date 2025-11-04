@@ -33,8 +33,8 @@ public class ActorService {
     }
 
     public Actor createActor(@NonNull CreateActorRequest request) {
-        if(actorRepository.findByFirstNameAndLastNameAndBirthDateIgnoreCase(request.firstName(), request.lastName(), request.birthDate()).isPresent()) {
-            throw new ActorAlreadyExists("Actor %s %s, birth date: %s already exists".formatted(request.firstName(), request.lastName(), request.birthDate()));
+        if(actorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(request.firstName(), request.lastName(),  request.birthDate()).isPresent()) {
+            throw new ActorAlreadyExists("Actor %s %s, birth date: %s already exists".formatted(request.firstName(), request.lastName(), request.birthDate().toString()));
         }
         var newActor = Actor.fromRequest(UUID.randomUUID(), request);
         return save(newActor);
