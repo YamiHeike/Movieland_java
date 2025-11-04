@@ -1,5 +1,6 @@
 package com.example.movieland.movie;
 
+import com.example.movieland.actor.ActorSnapshot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +20,9 @@ public class Movie {
     private String title;
     private LocalDate releaseDate;
     private UUID genreId;
-    private List<UUID> actorIds;
+    private List<ActorSnapshot> actors;
 
-    public static Movie of(String title, LocalDate releaseDate, UUID genreId, List<UUID> actorIds) {
-        return new Movie(UUID.randomUUID(), title, releaseDate, genreId, actorIds);
+    public static Movie of(String title, LocalDate releaseDate, UUID genreId, List<ActorSnapshot> actors) {
+        return new Movie(UUID.randomUUID(), title, releaseDate, genreId, actors);
     }
 }
