@@ -1,4 +1,4 @@
-package com.example.movieland.actor;
+package com.example.movieland.movie;
 
 import java.util.UUID;
 

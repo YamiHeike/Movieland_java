@@ -1,6 +1,5 @@
 package com.example.movieland.movie;
 
-import com.example.movieland.actor.ActorSnapshot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

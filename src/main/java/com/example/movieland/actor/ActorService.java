@@ -13,4 +13,12 @@ public class ActorService {
     public Page<Actor> findAll(Pageable pageable) {
         return actorRepository.findAll(pageable);
     }
+
+    public Actor findByFirstNameAndLastName(String firstName, String lastName) {
+        return actorRepository.findByFirstNameAndLastName(firstName, lastName)
+                .orElseThrow(() -> new ActorNotFound("{} {} - Actor not found".formatted(firstName, lastName)));
+    }
+
+
+
 }
