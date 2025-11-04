@@ -1,56 +1,67 @@
 package com.example.movieland.actor;
 
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 public class ActorServiceTest {
-    @Mock
+    @Autowired
     private ActorRepository actorRepository;
-    @InjectMocks
+    @Autowired
     private ActorService actorService;
-    private static final List<Actor> ACTORS = List.of(
-            Actor.from("Tom", "Hanks", LocalDate.of(1956, 7, 9)),
-            Actor.from("Anne", "Hathaway", LocalDate.of(1982, 11, 12)),
-            Actor.from("Leonardo", "DiCaprio", LocalDate.of(1974, 11, 11))
-    );
+
+    @Test
+    void returnsCorrectActor() {
+        // given
+        var expectedActor = Actor.from("Anne", "Hathaway", LocalDate.of(1982, 11, 12));
+        actorRepository.save(expectedActor);
+
+        // when
+        var actualActor = actorService.findByFirstNameAndLastName("Anne", "Hathaway");
+
+        // then
+        assertThat(actualActor).isEqualTo(expectedActor);
+    }
+
+    @Test
+    void throwException_whenActorNotFound() {
+        // given
+        var firstName = "Tom";
+        var lastName = "Hanks";
+        // when-then
+        assertThatThrownBy(() -> actorService.findByFirstNameAndLastName(firstName, lastName)).isExactlyInstanceOf(ActorNotFound.class);
+    }
 
     @ParameterizedTest
-    @MethodSource("providePages")
-    void findActorPage(Pageable pageable, List<Actor> expectedActors) {
-        // given
-        when(actorRepository.findAll(pageable))
-                .thenReturn(new PageImpl<>(expectedActors, pageable, ACTORS.size()));
-        // when
-        var result = actorService.findAll(pageable).getContent();
-        // then
-        assertThat(result).isEqualTo(expectedActors);
-        verify(actorRepository).findAll(pageable);
+    @MethodSource("invalidParams")
+    void throwException_whenNull(String firstName, String lastName) {
+        assertThatThrownBy(() -> actorService.findByFirstNameAndLastName(firstName, lastName)).isExactlyInstanceOf(NullPointerException.class);
     }
 
-    static Stream<Arguments> providePages() {
+    static Stream<Arguments> invalidParams() {
         return Stream.of(
-                Arguments.of(PageRequest.of(0, 2), ACTORS.subList(0, 1)),
-                Arguments.of(PageRequest.of(1, 2), singletonList(ACTORS.getLast()))
+                Arguments.of("Leonardo", null),
+                Arguments.of(null, "DiCaprio"),
+                Arguments.of(null, null)
         );
     }
+
+    @AfterEach
+    void cleanup() {
+        actorRepository.deleteAll();
+    }
+
 }
