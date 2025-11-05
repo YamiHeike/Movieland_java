@@ -19,4 +19,8 @@ public class Genre {
     public static Genre of(String name) {
         return new Genre(UUID.randomUUID(), name);
     }
+
+    public static Genre fromRequest(UUID id, CreateGenreRequest request) {
+        return new Genre(id, request.name());
+    }
 }
