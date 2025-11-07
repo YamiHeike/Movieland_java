@@ -1,12 +1,13 @@
 package com.example.movieland.genre;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface GenreRepository extends CrudRepository<Genre, UUID> {
+interface GenreRepository extends ListCrudRepository<Genre, UUID> {
     Optional<Genre> findByName(String name);
+    boolean existsByName(String name);
 }

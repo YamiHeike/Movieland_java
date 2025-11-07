@@ -12,6 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:25.0.0
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,4 +29,6 @@ jobs:
       - name: Build and Test
         run:  ./gradlew clean build --stacktrace --info
         env:
-          TESTCONTAINERS_RYUK_DISABLED: false
+          TESTCONTAINERS_RYUK_DISABLED: true
+          TESTCONTAINERS_REUSE_ENABLED: true
+          GRADLE_OPTS: "-Dorg.gradle.parallel=false"
