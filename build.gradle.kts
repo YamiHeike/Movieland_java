@@ -35,6 +35,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:mongodb")
+	testImplementation("io.rest-assured:rest-assured:5.5.6")
 }
 
 tasks.withType<Test> {

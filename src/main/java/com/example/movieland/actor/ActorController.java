@@ -39,8 +39,8 @@ class ActorController {
         return ResponseEntity.ok(actor);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Actor> updateActor(@PathVariable UUID id, @RequestBody Actor actor) {
+    @PatchMapping
+    public ResponseEntity<Actor> updateActor(@RequestBody Actor actor) {
         var actorUpdated = actorService.update(actor);
         return ResponseEntity.ok(actorUpdated);
     }
