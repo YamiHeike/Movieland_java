@@ -14,4 +14,5 @@ interface ActorRepository extends CrudRepository<Actor, UUID> {
     Page<Actor> findAll(Pageable pageable);
     Optional<Actor> findByFirstNameAndLastNameIgnoreCase(String firstName, String lastName);
     Optional<Actor> findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(String firstName, String lastName, LocalDate birthDate);
+    boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(String firstName, String lastName, LocalDate birthDate);
 }

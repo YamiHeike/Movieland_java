@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -32,14 +33,16 @@ public class ActorService {
         return actorRepository.save(actor);
     }
 
+    @Transactional
     public Actor createActor(@NonNull CreateActorRequest request) {
-        if(actorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(request.firstName(), request.lastName(),  request.birthDate()).isPresent()) {
+        if(actorRepository.existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndBirthDate(request.firstName(), request.lastName(),  request.birthDate())) {
             throw new ActorAlreadyExists("Actor %s %s, birth date: %s already exists".formatted(request.firstName(), request.lastName(), request.birthDate().toString()));
         }
         var newActor = Actor.fromRequest(UUID.randomUUID(), request);
         return save(newActor);
     }
 
+    @Transactional
     public Actor update(@NonNull Actor actor) {
         var existing = actorRepository.findById(actor.getId()).orElseThrow(() -> new ActorNotFound(AUTHOR_ID_NOT_FOUND.formatted(actor.getId())));
         existing.setFirstName(actor.getFirstName());
@@ -48,6 +51,7 @@ public class ActorService {
         return save(actor);
     }
 
+    @Transactional
     public void delete(@NonNull UUID id) {
         if (!actorRepository.existsById(id))
             throw new ActorNotFound(String.format(AUTHOR_ID_NOT_FOUND.formatted(id)));
