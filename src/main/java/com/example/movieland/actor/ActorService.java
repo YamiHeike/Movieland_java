@@ -44,10 +44,8 @@ public class ActorService {
 
     @Transactional
     public Actor update(@NonNull Actor actor) {
-        var existing = actorRepository.findById(actor.getId()).orElseThrow(() -> new ActorNotFound(AUTHOR_ID_NOT_FOUND.formatted(actor.getId())));
-        existing.setFirstName(actor.getFirstName());
-        existing.setLastName(actor.getLastName());
-        existing.setBirthDate(actor.getBirthDate());
+        if(!actorRepository.existsById(actor.getId()))
+            throw new ActorNotFound(String.format(AUTHOR_ID_NOT_FOUND, actor.getId()));
         return save(actor);
     }
 
