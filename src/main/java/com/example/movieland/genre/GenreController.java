@@ -21,7 +21,7 @@ class GenreController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Genre> findByGenre(@PathVariable UUID id) {
+    public ResponseEntity<Genre> findGenre(@PathVariable UUID id) {
         return ResponseEntity.ok(genreService.findGenreById(id));
     }
 
