@@ -26,7 +26,7 @@ class GenreController {
     }
 
     @PostMapping
-    public ResponseEntity<Genre> createGenre(CreateGenreRequest request) {
+    public ResponseEntity<Genre> createGenre(@RequestBody CreateGenreRequest request) {
         var genreCreated = genreService.createGenre(request);
         return ResponseEntity
                 .status(CREATED)
@@ -34,13 +34,13 @@ class GenreController {
     }
 
     @PatchMapping
-    public ResponseEntity<Genre> updateGenre(Genre genre) {
+    public ResponseEntity<Genre> updateGenre(@RequestBody Genre genre) {
         var genreUpdated = genreService.updateGenre(genre);
         return ResponseEntity.ok(genreUpdated);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteGenre(UUID id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGenre(@PathVariable UUID id) {
         genreService.deleteGenre(id);
         return ResponseEntity.noContent().build();
     }
