@@ -1,6 +1,7 @@
 package com.example.movieland.movie;
 
-import com.example.movieland.actor.ActorSnapshot;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,12 +18,20 @@ import java.util.UUID;
 public class Movie {
     @Id
     private final UUID id;
+    @NotBlank
     private String title;
+    @NotNull
     private LocalDate releaseDate;
+    @NotNull
     private UUID genreId;
+    @NotNull
     private List<ActorSnapshot> actors;
 
     public static Movie of(String title, LocalDate releaseDate, UUID genreId, List<ActorSnapshot> actors) {
         return new Movie(UUID.randomUUID(), title, releaseDate, genreId, actors);
+    }
+
+    public static Movie fromRequest(UUID id, CreateMovieRequest request) {
+        return new Movie(id, request.title(), request.releaseDate(), request.genreId(), request.actors());
     }
 }
