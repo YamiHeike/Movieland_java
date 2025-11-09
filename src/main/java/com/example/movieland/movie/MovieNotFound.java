@@ -4,8 +4,8 @@ import com.example.movieland.common.AppException;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-public class MovieNotFoundException extends AppException {
-    public MovieNotFoundException(String message) {
+public class MovieNotFound extends AppException {
+    public MovieNotFound(String message) {
         super(NOT_FOUND, message);
     }
 }
