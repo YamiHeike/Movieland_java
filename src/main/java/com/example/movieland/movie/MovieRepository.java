@@ -16,4 +16,5 @@ public interface MovieRepository extends CrudRepository<Movie, UUID> {
     Optional<Movie> findByTitle(String title);
     @Query("{ 'actors.id': ?0 }")
     List<Movie> findByActorId(UUID actorId);
+    boolean existsByTitle(String title);
 }
