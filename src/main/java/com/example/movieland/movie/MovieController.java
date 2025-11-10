@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/movies")
 @RequiredArgsConstructor
@@ -34,7 +36,9 @@ class MovieController {
 
     @PostMapping
     public ResponseEntity<Movie> createMovie(@RequestBody CreateMovieRequest request) {
-        return ResponseEntity.ok(movieService.create(request));
+        return ResponseEntity
+                .status(CREATED)
+                .body(movieService.create(request));
     }
 
     @PatchMapping
