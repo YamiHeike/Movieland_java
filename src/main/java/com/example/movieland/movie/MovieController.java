@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -29,10 +30,16 @@ class MovieController {
         return ResponseEntity.ok(movieService.getByTitle(title));
     }
 
+    @GetMapping(params = "actor-id")
+    public ResponseEntity<List<Movie>> getMovieByActorId(@RequestParam("actor-id") UUID id) {
+        return ResponseEntity.ok(movieService.getByActorId(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getMovie(@PathVariable UUID id) {
         return ResponseEntity.ok(movieService.getById(id));
     }
+
 
     @PostMapping
     public ResponseEntity<Movie> createMovie(@RequestBody CreateMovieRequest request) {

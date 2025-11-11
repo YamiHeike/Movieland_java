@@ -102,6 +102,24 @@ public class MovieControllerTest extends BaseControllerTest {
     }
 
     @Test
+    void getMovieByActorId() {
+        // given
+        var movies = getTestMovies();
+        movieRepository.saveAll(movies);
+        var actor = movies.getFirst().getActors().getFirst();
+        var expectedMovies = movies.stream()
+                .filter(movie -> movie.getActors().contains(actor))
+                .toList();
+        // when
+        given().contentType("application/json")
+                .when()
+                .get("/movies?actor-id=%s".formatted(actor.id()))
+                .then()
+                .statusCode(200)
+                .body("$.size()", equalTo(expectedMovies.size()));
+    }
+
+    @Test
     void createMovie() {
         // given
         var movie = getTestMovies().getLast();
@@ -146,7 +164,7 @@ public class MovieControllerTest extends BaseControllerTest {
         given().contentType("application/json")
                 .when()
                 .body(movie)
-                .patch("/movies".formatted(movie.getId()))
+                .patch("/movies")
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(movie.getId().toString()))
@@ -166,7 +184,7 @@ public class MovieControllerTest extends BaseControllerTest {
         given().contentType("application/json")
                 .when()
                 .body(movie)
-                .patch("/movies".formatted(movie.getId()))
+                .patch("/movies")
                 .then()
                 .statusCode(404);
     }

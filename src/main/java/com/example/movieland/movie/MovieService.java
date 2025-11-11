@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,6 +27,10 @@ public class MovieService {
     public Movie getByTitle(String title) {
         return movieRepository.findByTitle(title)
                 .orElseThrow(() -> new MovieNotFound(NOT_FOUND_MESSAGE.formatted(title)));
+    }
+
+    public List<Movie> getByActorId(UUID actorId) {
+        return movieRepository.findByActorId(actorId);
     }
 
     @Transactional

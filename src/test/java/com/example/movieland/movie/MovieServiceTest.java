@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
@@ -76,6 +74,21 @@ public class MovieServiceTest extends BaseIntegrationTest {
     void throwException_whenMovieTitleNotFound() {
         assertThatThrownBy(() -> movieService.getByTitle("test"))
                 .isExactlyInstanceOf(MovieNotFound.class);
+    }
+
+    @Test
+    void findByActorId() {
+        // given
+        var movies = getTestMovies();
+        movieRepository.saveAll(movies);
+        var actor = movies.getFirst().getActors().getFirst();
+        var expectedMovies = movies.stream()
+                .filter(movie -> movie.getActors().contains(actor))
+                .toList();
+        // when
+        var actualMovies = movieService.getByActorId(actor.id());
+        // then
+        assertThat(actualMovies).isEqualTo(expectedMovies);
     }
 
     @Test
