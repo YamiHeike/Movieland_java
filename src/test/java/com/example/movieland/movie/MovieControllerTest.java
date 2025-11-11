@@ -1,10 +1,13 @@
 package com.example.movieland.movie;
 
+import com.example.movieland.actor.Actor;
+import com.example.movieland.actor.ActorService;
 import com.example.movieland.common.BaseControllerTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.example.movieland.movie.MovieTestData.getTestActors;
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -12,9 +15,9 @@ import static org.hamcrest.Matchers.hasSize;
 
 public class MovieControllerTest extends BaseControllerTest {
     @Autowired
-    private MovieService movieService;
-    @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private ActorService actorService;
 
     @Test
     void returnsMoviePage() {
@@ -123,6 +126,8 @@ public class MovieControllerTest extends BaseControllerTest {
     void createMovie() {
         // given
         var movie = getTestMovies().getLast();
+        var actors = getTestActors();
+        actors.forEach(actorService::save);
         var createMovieRequest = CreateMovieRequest.of(movie.getTitle(), movie.getReleaseDate(), movie.getGenreId(), movie.getActors());
         // when-then
         given().contentType("application/json")
@@ -137,6 +142,7 @@ public class MovieControllerTest extends BaseControllerTest {
                 .body("actors", hasSize(2))
                 .body("actors[0].id", equalTo(movie.getActors().getFirst().id().toString()))
                 .body("actors[1].id", equalTo(movie.getActors().getLast().id().toString()));
+        actorCleanup();
     }
 
     @Test
@@ -152,6 +158,18 @@ public class MovieControllerTest extends BaseControllerTest {
                 .post("/movies")
                 .then()
                 .statusCode(400);
+    }
+
+    @Test
+    void tryToCreateMovie_withNonExistingActor() {
+        var movie = getTestMovies().getLast();
+        var createMovieRequest = CreateMovieRequest.of(movie.getTitle(), movie.getReleaseDate(), movie.getGenreId(), movie.getActors());
+        given().contentType("application/json")
+                .when()
+                .body(createMovieRequest)
+                .post("/movies")
+                .then()
+                .statusCode(404);
     }
 
     @Test
@@ -192,5 +210,12 @@ public class MovieControllerTest extends BaseControllerTest {
     @AfterEach
     void cleanup() {
         movieRepository.deleteAll();
+    }
+
+    private void actorCleanup() {
+        var actorIds = getTestActors().stream()
+                .map(Actor::getId)
+                .toList();
+        actorIds.forEach(actorService::delete);
     }
 }

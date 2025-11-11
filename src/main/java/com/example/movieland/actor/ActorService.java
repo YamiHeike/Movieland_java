@@ -58,4 +58,8 @@ public class ActorService {
 
         actorRepository.deleteById(id);
     }
+
+    public boolean existsById(@NonNull UUID id) {
+        return actorRepository.existsById(id);
+    }
 }

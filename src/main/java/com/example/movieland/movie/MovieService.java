@@ -1,5 +1,7 @@
 package com.example.movieland.movie;
 
+import com.example.movieland.actor.ActorNotFound;
+import com.example.movieland.actor.ActorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MovieService {
     private final MovieRepository movieRepository;
+    private final ActorService actorService;
     private static final String NOT_FOUND_MESSAGE = "Movie with id %s not found";
 
     public Page<Movie> getMovies(Pageable pageable) {
@@ -37,6 +40,11 @@ public class MovieService {
     public Movie create(CreateMovieRequest request) {
         if(movieRepository.existsByTitleAndReleaseDate(request.title(), request.releaseDate()))
             throw new MovieAlreadyExists("Movie with title %s already exists".formatted(request.title()));
+        request.actors().forEach(actor -> {
+            if(!actorService.existsById(actor.id())) {
+                throw new ActorNotFound("Could not create a movie - Actor %s %s not found".formatted(actor.firstName(), actor.lastName()));
+            }
+        });
         var createdMovie = Movie.fromRequest(UUID.randomUUID(), request);
         return movieRepository.save(createdMovie);
     }
@@ -57,7 +65,7 @@ public class MovieService {
 
     @Transactional
     public void saveAll(List<Movie> movies) {
-        var saved = movieRepository.saveAll(movies);
+        movieRepository.saveAll(movies);
     }
 
     @Transactional
