@@ -28,7 +28,6 @@ public class HistoryTestDataSupplier {
         this.actorService = actorService;
     }
 
-    // TODO: investigate - movies should not be created when actor does not exist
     public UUID prepareDataSet() {
         var movies = getTestMovies();
         var actors = getTestActors();
