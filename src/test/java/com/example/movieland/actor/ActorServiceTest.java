@@ -77,7 +77,7 @@ public class ActorServiceTest extends BaseIntegrationTest {
         actorService.save(actor);
         var expectedActor = Actor.fromRequest(actor.getId(), new CreateActorRequest("Vin", "Diesel", actor.getBirthDate()));
         // when
-        actorService.update(expectedActor);
+        actorService.update(expectedActor, false);
         var actualActor = actorService.findById(actor.getId());
         // then
         assertThat(actualActor).isEqualTo(expectedActor);
@@ -137,7 +137,7 @@ public class ActorServiceTest extends BaseIntegrationTest {
         // given
         var actor = actors.getFirst();
         // when-then
-        assertThatThrownBy(() -> actorService.update(actor)).isExactlyInstanceOf(ActorNotFound.class);
+        assertThatThrownBy(() -> actorService.update(actor, false)).isExactlyInstanceOf(ActorNotFound.class);
     }
 
     @Test

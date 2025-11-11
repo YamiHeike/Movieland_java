@@ -43,7 +43,7 @@ public class ActorService {
     }
 
     @Transactional
-    public Actor update(@NonNull Actor actor) {
+    public Actor update(@NonNull Actor actor, boolean updateSnapshots) {
         var existing = actorRepository.findById(actor.getId()).orElseThrow(() -> new ActorNotFound(AUTHOR_ID_NOT_FOUND.formatted(actor.getId())));
         existing.setFirstName(actor.getFirstName());
         existing.setLastName(actor.getLastName());

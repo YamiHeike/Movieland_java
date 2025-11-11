@@ -40,8 +40,8 @@ class ActorController {
     }
 
     @PatchMapping
-    public ResponseEntity<Actor> updateActor(@RequestBody Actor actor) {
-        var actorUpdated = actorService.update(actor);
+    public ResponseEntity<Actor> updateActor(@RequestBody Actor actor, @RequestParam(name = "update-snapshots", defaultValue = "false") boolean updateSnapshots) {
+        var actorUpdated = actorService.update(actor, updateSnapshots);
         return ResponseEntity.ok(actorUpdated);
     }
 
