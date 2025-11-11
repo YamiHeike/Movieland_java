@@ -54,4 +54,14 @@ public class MovieService {
             throw new MovieNotFound(String.format(NOT_FOUND_MESSAGE.formatted(id)));
         movieRepository.deleteById(id);
     }
+
+    @Transactional
+    public void saveAll(List<Movie> movies) {
+        var saved = movieRepository.saveAll(movies);
+    }
+
+    @Transactional
+    public void deleteAll() {
+        movieRepository.deleteAll();
+    }
 }

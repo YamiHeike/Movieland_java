@@ -4,14 +4,20 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-class MovieTestData {
+public class MovieTestData {
     private final static UUID ACTION_UUID = UUID.fromString("11111111-1111-1111-1111-111111111111");
     private final static UUID SCI_FI_UUID  = UUID.fromString("22222222-2222-2222-2222-222222222222");
-    private final static ActorSnapshot KEANU = ActorSnapshot.from(UUID.randomUUID(), "Keanu", "Reeves");
-    private final static ActorSnapshot CARRIE = ActorSnapshot.from(UUID.randomUUID(), "Carrie-Anne", "Moss");
-    private final static ActorSnapshot LEO = ActorSnapshot.from(UUID.randomUUID(), "Leonardo", "DiCaprio");
-    private final static ActorSnapshot MATTHEW = ActorSnapshot.from(UUID.randomUUID(), "Matthew", "McConaughey");
-    private final static ActorSnapshot ANNE = ActorSnapshot.from(UUID.randomUUID(), "Anne", "Hathaway");
+    private static final ActorSnapshot KEANU = ActorSnapshot.from(
+            UUID.fromString("33333333-3333-3333-3333-333333333333"), "Keanu", "Reeves");
+    private static final ActorSnapshot CARRIE = ActorSnapshot.from(
+            UUID.fromString("44444444-4444-4444-4444-444444444444"), "Carrie-Anne", "Moss");
+    private static final ActorSnapshot LEO = ActorSnapshot.from(
+            UUID.fromString("55555555-5555-5555-5555-555555555555"), "Leonardo", "DiCaprio");
+    private static final ActorSnapshot MATTHEW = ActorSnapshot.from(
+            UUID.fromString("66666666-6666-6666-6666-666666666666"), "Matthew", "McConaughey");
+    private static final ActorSnapshot ANNE = ActorSnapshot.from(
+            UUID.fromString("77777777-7777-7777-7777-777777777777"), "Anne", "Hathaway");
+
 
     public static List<Movie> getTestMovies() {
         Movie m1 = Movie.of(
