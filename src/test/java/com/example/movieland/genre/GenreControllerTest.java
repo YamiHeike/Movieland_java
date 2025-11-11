@@ -3,7 +3,6 @@ package com.example.movieland.genre;
 import com.example.movieland.common.BaseControllerTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,11 +12,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class GenreControllerTest extends BaseControllerTest {
-    @Autowired
-    private GenreService genreService;
-    @Autowired
-    private GenreRepository genreRepository;
-
     private final List<CreateGenreRequest> createGenreRequests = List.of(
             CreateGenreRequest.of("Action"),
             CreateGenreRequest.of("Fantasy"),
@@ -145,7 +139,7 @@ public class GenreControllerTest extends BaseControllerTest {
 
     @AfterEach
     void cleanup() {
-        genreRepository.deleteAll();
+        genreService.deleteAll();
     }
 
 }

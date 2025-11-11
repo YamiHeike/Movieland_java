@@ -18,8 +18,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class MovieServiceTest extends BaseIntegrationTest {
     @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
     private MovieService movieService;
     @Autowired
     private ActorService actorService;
@@ -47,7 +45,7 @@ public class MovieServiceTest extends BaseIntegrationTest {
     void findMovieById_whenItExists() {
         // given
         var expectedMovie = getTestMovies().getLast();
-        movieRepository.save(expectedMovie);
+        movieService.save(expectedMovie);
         // when
         var actualMovie = movieService.getById(expectedMovie.getId());
         // then
@@ -67,7 +65,7 @@ public class MovieServiceTest extends BaseIntegrationTest {
     void findMovieByTitle_whenItExists() {
         // given
         var expectedMovie = getTestMovies().getFirst();
-        movieRepository.save(expectedMovie);
+        movieService.save(expectedMovie);
         // when
         var actualMovie = movieService.getByTitle(expectedMovie.getTitle());
         // then
@@ -86,7 +84,7 @@ public class MovieServiceTest extends BaseIntegrationTest {
     void findByActorId() {
         // given
         var movies = getTestMovies();
-        movieRepository.saveAll(movies);
+        movieService.saveAll(movies);
         var actor = movies.getFirst().getActors().getFirst();
         var expectedMovies = movies.stream()
                 .filter(movie -> movie.getActors().contains(actor))
@@ -123,7 +121,7 @@ public class MovieServiceTest extends BaseIntegrationTest {
         var expectedMovie = getTestMovies().get(4);
         var testActors = getTestActors();
         testActors.forEach(actorService::save);
-        movieRepository.save(expectedMovie);
+        movieService.save(expectedMovie);
         var createMovieRequest = CreateMovieRequest.of(expectedMovie.getTitle(),
                 expectedMovie.getReleaseDate(),
                 expectedMovie.getGenreId(),
@@ -154,7 +152,7 @@ public class MovieServiceTest extends BaseIntegrationTest {
         // given
         var expectedMovie = getTestMovies().getFirst();
         var previousTitle = expectedMovie.getTitle();
-        movieRepository.save(expectedMovie);
+        movieService.save(expectedMovie);
         expectedMovie.setTitle("Matrix");
         // when
         var actualMovie = movieService.update(expectedMovie);
@@ -173,7 +171,7 @@ public class MovieServiceTest extends BaseIntegrationTest {
     void deleteMovie() {
         // given
         var expectedMovie = getTestMovies().get(5);
-        movieRepository.save(expectedMovie);
+        movieService.save(expectedMovie);
         // when
         movieService.delete(expectedMovie.getId());
         // then
@@ -189,13 +187,13 @@ public class MovieServiceTest extends BaseIntegrationTest {
     }
 
     void createMovieData() {
-        movieRepository.saveAll(getTestMovies());
+        movieService.saveAll(getTestMovies());
     }
 
 
     @AfterEach
     void cleanup() {
-        movieRepository.deleteAll();
+        movieService.deleteAll();
     }
 
     private void actorsCleanup() {

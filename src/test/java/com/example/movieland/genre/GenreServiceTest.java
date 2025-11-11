@@ -14,8 +14,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 public class GenreServiceTest extends BaseIntegrationTest {
     @Autowired
     private GenreService genreService;
-    @Autowired
-    private GenreRepository genreRepository;
 
     @Test
     void returnsAllGenres() {
@@ -102,10 +100,10 @@ public class GenreServiceTest extends BaseIntegrationTest {
 
     @AfterEach
     void cleanup() {
-        genreRepository.deleteAll();
+        genreService.deleteAll();
     }
 
     private void createTestData(List<Genre> genres) {
-        genreRepository.saveAll(genres);
+        genreService.saveAll(genres);
     }
 }

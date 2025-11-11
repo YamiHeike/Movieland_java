@@ -17,7 +17,7 @@ import static com.example.movieland.movie.MovieTestData.getTestMovies;
 public class HistoryTestDataSupplier {
     public static final int CHANGED_MOVIE_IDX = 4;
     public static final int CHANGED_ACTOR_IDX = 1;
-    public static final String CHANGED_NAME = "Carriie";
+    public static final String CHANGED_NAME = "Carrie";
     private final MovieService movieService;
     private final ActorService actorService;
 
@@ -29,7 +29,7 @@ public class HistoryTestDataSupplier {
     public UUID prepareDataSet() {
         var movies = getTestMovies();
         var actors = getTestActors();
-        actors.forEach(actorService::save);
+        actorService.saveAll(actors);
         movieService.saveAll(movies);
         var movie = movies.get(CHANGED_MOVIE_IDX);
         var snapshot = movie.getActors().get(CHANGED_ACTOR_IDX);

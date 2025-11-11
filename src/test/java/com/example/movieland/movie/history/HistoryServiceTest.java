@@ -39,7 +39,7 @@ public class HistoryServiceTest extends BaseIntegrationTest {
                 ActorDetailsResponse.of(CHANGED_NAME, snapshot.lastName())
         ));
         // when
-        var actualHistory = historyService.getActorHistory(snapshot.id());
+        var actualHistory = historyService.getActorDataChangeHistory(snapshot.id());
         // then
         assertThat(actualHistory)
                 .usingRecursiveComparison()
@@ -52,7 +52,7 @@ public class HistoryServiceTest extends BaseIntegrationTest {
         var id = UUID.randomUUID();
         var expectedEntries = ActorHistoryResponse.of(id, emptyList());
         // when
-        var actualEntries = historyService.getActorHistory(id);
+        var actualEntries = historyService.getActorDataChangeHistory(id);
         // then
         assertThat(actualEntries).isEqualTo(expectedEntries);
     }
@@ -86,7 +86,7 @@ public class HistoryServiceTest extends BaseIntegrationTest {
         // given
         testDataSupplier.prepareDataSet();
         // when
-        var actualResult = historyService.didActorChangedData(actorId);
+        var actualResult = historyService.didActorChangedDataOverTime(actorId);
         // then
         assertThat(actualResult).isEqualTo(expectedResult);
     }

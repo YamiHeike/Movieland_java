@@ -64,6 +64,11 @@ public class MovieService {
     }
 
     @Transactional
+    public void save(Movie movie) {
+        movieRepository.save(movie);
+    }
+
+    @Transactional
     public void saveAll(List<Movie> movies) {
         movieRepository.saveAll(movies);
     }
