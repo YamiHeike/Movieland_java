@@ -1,5 +1,8 @@
 package com.example.movieland.movie;
 
+import com.example.movieland.actor.Actor;
+import com.example.movieland.actor.ActorNotFound;
+import com.example.movieland.actor.ActorService;
 import com.example.movieland.common.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.UUID;
 
+import static com.example.movieland.movie.MovieTestData.getTestActors;
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -17,6 +21,8 @@ public class MovieServiceTest extends BaseIntegrationTest {
     private MovieRepository movieRepository;
     @Autowired
     private MovieService movieService;
+    @Autowired
+    private ActorService actorService;
 
     @Test
     void findsCorrectMoviePage() {
@@ -95,6 +101,8 @@ public class MovieServiceTest extends BaseIntegrationTest {
     void createMovie() {
         // given
         var expectedMovie = getTestMovies().get(4);
+        var testActors = getTestActors();
+        testActors.forEach(actorService::save);
         var createMovieRequest = CreateMovieRequest.of(expectedMovie.getTitle(),
                 expectedMovie.getReleaseDate(),
                 expectedMovie.getGenreId(),
@@ -106,12 +114,15 @@ public class MovieServiceTest extends BaseIntegrationTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(expectedMovie);
+        actorsCleanup();
     }
 
     @Test
     void throwException_whenCreatingAlreadyExistingMovie() {
         // given
         var expectedMovie = getTestMovies().get(4);
+        var testActors = getTestActors();
+        testActors.forEach(actorService::save);
         movieRepository.save(expectedMovie);
         var createMovieRequest = CreateMovieRequest.of(expectedMovie.getTitle(),
                 expectedMovie.getReleaseDate(),
@@ -120,6 +131,22 @@ public class MovieServiceTest extends BaseIntegrationTest {
         // when-then
         assertThatThrownBy(() -> movieService.create(createMovieRequest))
                 .isExactlyInstanceOf(MovieAlreadyExists.class);
+        actorsCleanup();
+    }
+
+    @Test
+    void throwException_whenCreatingMovieWithNotExistingActor() {
+        // given
+        var movie = getTestMovies().get(4);
+        var createMovieRequest = CreateMovieRequest.of(
+                movie.getTitle(),
+                movie.getReleaseDate(),
+                movie.getGenreId(),
+                movie.getActors()
+        );
+        // when-then
+        assertThatThrownBy(() -> movieService.create(createMovieRequest))
+                .isExactlyInstanceOf(ActorNotFound.class);
     }
 
     @Test
@@ -169,5 +196,12 @@ public class MovieServiceTest extends BaseIntegrationTest {
     @AfterEach
     void cleanup() {
         movieRepository.deleteAll();
+    }
+
+    private void actorsCleanup() {
+        var actorIds = getTestActors().stream()
+                .map(Actor::getId)
+                .toList();
+        actorIds.forEach(actorService::delete);
     }
 }

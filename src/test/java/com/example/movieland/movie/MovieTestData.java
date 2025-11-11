@@ -1,5 +1,8 @@
 package com.example.movieland.movie;
 
+import com.example.movieland.actor.Actor;
+import com.example.movieland.actor.CreateActorRequest;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -17,7 +20,6 @@ public class MovieTestData {
             UUID.fromString("66666666-6666-6666-6666-666666666666"), "Matthew", "McConaughey");
     private static final ActorSnapshot ANNE = ActorSnapshot.from(
             UUID.fromString("77777777-7777-7777-7777-777777777777"), "Anne", "Hathaway");
-
 
     public static List<Movie> getTestMovies() {
         Movie m1 = Movie.of(
@@ -57,5 +59,36 @@ public class MovieTestData {
                 List.of(KEANU, CARRIE)
         );
         return List.of(m1, m2, m3, m4, m5, m6);
+    }
+
+    public static List<Actor> getTestActors() {
+        var actors = List.of(
+                Actor.fromRequest(KEANU.id(), CreateActorRequest.of(
+                        KEANU.firstName(),
+                        KEANU.lastName(),
+                        LocalDate.of(1964, 9, 2)
+                )),
+                Actor.fromRequest(CARRIE.id(), CreateActorRequest.of(
+                        CARRIE.firstName(),
+                        CARRIE.lastName(),
+                        LocalDate.of(1967, 8, 21)
+                )),
+                Actor.fromRequest(LEO.id(), CreateActorRequest.of(
+                        LEO.firstName(),
+                        LEO.lastName(),
+                        LocalDate.of(1974, 11, 11)
+                )),
+                Actor.fromRequest(MATTHEW.id(), CreateActorRequest.of(
+                        MATTHEW.firstName(),
+                        MATTHEW.lastName(),
+                        LocalDate.of(1969, 11, 4)
+                )),
+                Actor.fromRequest(ANNE.id(), CreateActorRequest.of(
+                        ANNE.firstName(),
+                        ANNE.lastName(),
+                        LocalDate.of(1982, 11, 12)
+                ))
+        );
+        return actors;
     }
 }
