@@ -1,8 +1,6 @@
 package com.example.movieland.movie.history;
 
-import com.example.movieland.actor.Actor;
 import com.example.movieland.actor.ActorService;
-import com.example.movieland.actor.CreateActorRequest;
 import com.example.movieland.movie.ActorSnapshot;
 import com.example.movieland.movie.MovieService;
 import org.springframework.context.annotation.Profile;
