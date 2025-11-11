@@ -17,12 +17,12 @@ class HistoryController {
 
     @GetMapping("/{actorId}")
     public ResponseEntity<ActorHistoryResponse> getActorNameChangeHistory(@PathVariable UUID actorId) {
-        return ResponseEntity.ok(historyService.getActorHistory(actorId));
+        return ResponseEntity.ok(historyService.getActorDataChangeHistory(actorId));
     }
 
     @GetMapping("/{actorId}/name-change")
     public ResponseEntity<Boolean> didActorChangeName(@PathVariable UUID actorId) {
-        return ResponseEntity.ok(historyService.didActorChangedData(actorId));
+        return ResponseEntity.ok(historyService.didActorChangedDataOverTime(actorId));
     }
 
     @GetMapping("/{movieId}/{actorId}")

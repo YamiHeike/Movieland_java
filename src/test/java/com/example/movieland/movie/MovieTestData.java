@@ -62,7 +62,7 @@ public class MovieTestData {
     }
 
     public static List<Actor> getTestActors() {
-        var actors = List.of(
+        return List.of(
                 Actor.fromRequest(KEANU.id(), CreateActorRequest.of(
                         KEANU.firstName(),
                         KEANU.lastName(),
@@ -89,6 +89,5 @@ public class MovieTestData {
                         LocalDate.of(1982, 11, 12)
                 ))
         );
-        return actors;
     }
 }

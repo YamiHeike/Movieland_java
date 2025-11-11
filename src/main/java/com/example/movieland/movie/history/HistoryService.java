@@ -1,6 +1,9 @@
 package com.example.movieland.movie.history;
 
 import com.example.movieland.actor.ActorService;
+import com.example.movieland.movie.ActorSnapshot;
+import com.example.movieland.movie.CreateMovieRequest;
+import com.example.movieland.movie.Movie;
 import com.example.movieland.movie.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,7 @@ public class HistoryService {
     private final ActorService actorService;
 
     @Transactional(readOnly = true)
-    public ActorHistoryResponse getActorHistory(UUID actorId) {
+    public ActorHistoryResponse getActorDataChangeHistory(UUID actorId) {
         var movies = movieService.getByActorId(actorId);
         if(movies.isEmpty())
             return ActorHistoryResponse.of(actorId, emptyList());
@@ -41,7 +44,7 @@ public class HistoryService {
     }
 
     @Transactional(readOnly = true)
-    public boolean didActorChangedData(UUID actorID) {
+    public boolean didActorChangedDataOverTime(UUID actorID) {
         var actor = actorService.findById(actorID);
         var currentName = "%s %s".formatted(actor.getFirstName(), actor.getLastName());
         var movies = movieService.getByActorId(actorID);
@@ -51,5 +54,24 @@ public class HistoryService {
                 .flatMap(it -> it.getActors().stream()
                         .filter(snapshot -> snapshot.id().equals(actorID)))
                 .anyMatch(snapshot -> !(("%s %s").formatted(snapshot.firstName(), snapshot.lastName()).equalsIgnoreCase(currentName.trim())));
+    }
+
+    @Transactional
+    public void updateSnapshots(UUID actorId, String previousFirstName, String previousLastName, String newFirstName, String newLastName) {
+        var movies = movieService.getByActorId(actorId).stream()
+                        .filter(movie -> movie.getActors().stream()
+                                .anyMatch(snapshot -> snapshot.firstName().equals(previousFirstName)
+                                        && snapshot.lastName().equals(previousLastName)
+                                        && snapshot.id().equals(actorId)))
+                        .toList();
+        movies.forEach(movie -> {
+            var updatedActors = movie.getActors().stream()
+                    .map(snapshot -> snapshot.id().equals(actorId)
+                            ? ActorSnapshot.from(actorId, newFirstName, newLastName)
+                            : snapshot)
+                    .toList();
+            var updatedMovie = Movie.fromRequest(movie.getId(), CreateMovieRequest.of(movie.getTitle(), movie.getReleaseDate(), movie.getGenreId(), updatedActors));
+            movieService.update(updatedMovie);
+        });
     }
 }

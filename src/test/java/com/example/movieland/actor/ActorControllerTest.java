@@ -3,7 +3,6 @@ package com.example.movieland.actor;
 import com.example.movieland.common.BaseControllerTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,9 +12,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class ActorControllerTest extends BaseControllerTest {
-    @Autowired
-    private ActorRepository actorRepository;
-
     private final List<CreateActorRequest> createActorRequests = List.of(
             CreateActorRequest.of("Leonardo", "DiCaprio", LocalDate.of(1974,11,11)),
             CreateActorRequest.of("Natalie", "Portman", LocalDate.of(1981, 6, 9))
@@ -149,6 +145,6 @@ public class ActorControllerTest extends BaseControllerTest {
 
     @AfterEach
     void cleanup() {
-        actorRepository.deleteAll();
+        actorService.deleteAll();
     }
 }

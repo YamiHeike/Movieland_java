@@ -1,11 +1,9 @@
 package com.example.movieland.movie;
 
 import com.example.movieland.actor.Actor;
-import com.example.movieland.actor.ActorService;
 import com.example.movieland.common.BaseControllerTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.example.movieland.movie.MovieTestData.getTestActors;
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
@@ -14,17 +12,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 public class MovieControllerTest extends BaseControllerTest {
-    @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private ActorService actorService;
-
     @Test
     void returnsMoviePage() {
         // given
         var movies = getTestMovies();
         var pageSize = 2;
-        movieRepository.saveAll(movies);
+        movieService.saveAll(movies);
         // when-then
         given().contentType("application/json")
                 .when()
@@ -49,7 +42,7 @@ public class MovieControllerTest extends BaseControllerTest {
     void getMovieByTitle() {
         // given
         var movie = getTestMovies().get(2);
-        movieRepository.save(movie);
+        movieService.save(movie);
         // when-then
         given().contentType("application/json")
                 .when()
@@ -78,7 +71,7 @@ public class MovieControllerTest extends BaseControllerTest {
     void getMovieById() {
         // given
         var movie = getTestMovies().get(4);
-        movieRepository.save(movie);
+        movieService.save(movie);
         // when-then
         given().contentType("application/json")
                 .when()
@@ -108,7 +101,7 @@ public class MovieControllerTest extends BaseControllerTest {
     void getMovieByActorId() {
         // given
         var movies = getTestMovies();
-        movieRepository.saveAll(movies);
+        movieService.saveAll(movies);
         var actor = movies.getFirst().getActors().getFirst();
         var expectedMovies = movies.stream()
                 .filter(movie -> movie.getActors().contains(actor))
@@ -150,7 +143,7 @@ public class MovieControllerTest extends BaseControllerTest {
         // given
         var movie = getTestMovies().getLast();
         var createMovieRequest = CreateMovieRequest.of(movie.getTitle(), movie.getReleaseDate(), movie.getGenreId(), movie.getActors());
-        movieRepository.save(movie);
+        movieService.save(movie);
         // when-then
         given().contentType("application/json")
                 .when()
@@ -176,7 +169,7 @@ public class MovieControllerTest extends BaseControllerTest {
     void updateMovie() {
         // given
         var movie = getTestMovies().get(4);
-        movieRepository.save(movie);
+        movieService.save(movie);
         movie.setTitle("Matrix Reloaded");
         // when-then
         given().contentType("application/json")
@@ -209,7 +202,7 @@ public class MovieControllerTest extends BaseControllerTest {
 
     @AfterEach
     void cleanup() {
-        movieRepository.deleteAll();
+        movieService.deleteAll();
     }
 
     private void actorCleanup() {

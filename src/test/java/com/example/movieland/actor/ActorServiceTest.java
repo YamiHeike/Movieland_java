@@ -18,8 +18,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class ActorServiceTest extends BaseIntegrationTest {
     @Autowired
-    private ActorRepository actorRepository;
-    @Autowired
     private ActorService actorService;
     private final List<Actor> actors = List.of(
             Actor.from("Leonardo", "DiCaprio", LocalDate.of(1974,11,11)),
@@ -149,7 +147,7 @@ public class ActorServiceTest extends BaseIntegrationTest {
 
     @AfterEach
     void cleanup() {
-        actorRepository.deleteAll();
+        actorService.deleteAll();
     }
 
 }
