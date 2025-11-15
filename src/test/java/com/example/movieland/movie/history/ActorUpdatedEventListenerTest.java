@@ -3,6 +3,9 @@ package com.example.movieland.movie.history;
 import com.example.movieland.actor.ActorService;
 import com.example.movieland.common.BaseIntegrationTest;
 import java.util.List;
+
+import com.example.movieland.history.ActorDetailsResponse;
+import com.example.movieland.history.HistoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
