@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/movies")
 @RequiredArgsConstructor
-class MovieController {
+class MovieController implements MovieApi {
     private final MovieService movieService;
 
     @GetMapping

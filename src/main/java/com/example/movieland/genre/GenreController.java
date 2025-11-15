@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/genres")
 @RequiredArgsConstructor
-class GenreController {
+class GenreController implements GenreApi {
     private final GenreService genreService;
 
     @GetMapping

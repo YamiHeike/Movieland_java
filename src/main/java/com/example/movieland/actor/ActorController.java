@@ -13,7 +13,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/actors")
 @AllArgsConstructor
-class ActorController {
+class ActorController implements ActorApi {
     private final ActorService actorService;
 
     @GetMapping

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 import static java.util.Collections.emptyList;
+import static java.util.Comparator.comparing;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,9 @@ public class HistoryService {
 
     @Transactional(readOnly = true)
     public ActorHistoryResponse getActorDataChangeHistory(UUID actorId) {
-        var movies = movieService.getByActorId(actorId);
+        var movies = movieService.getByActorId(actorId).stream()
+                .sorted(comparing(Movie::getReleaseDate))
+                .toList();
         if(movies.isEmpty())
             return ActorHistoryResponse.of(actorId, emptyList());
         var entries = movies.stream()

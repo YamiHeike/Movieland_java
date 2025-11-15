@@ -1,18 +1,16 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import com.example.movieland.actor.ActorService;
 import com.example.movieland.common.BaseIntegrationTest;
 import java.util.List;
 
-import com.example.movieland.history.ActorDetailsResponse;
-import com.example.movieland.history.HistoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.example.movieland.movie.MovieTestData.getTestActors;
-import static com.example.movieland.movie.history.HistoryTestDataSupplier.CHANGED_ACTOR_IDX;
-import static com.example.movieland.movie.history.HistoryTestDataSupplier.CHANGED_NAME;
+import static com.example.movieland.history.HistoryTestDataSupplier.CHANGED_ACTOR_IDX;
+import static com.example.movieland.history.HistoryTestDataSupplier.CHANGED_NAME;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ActorUpdatedEventListenerTest extends BaseIntegrationTest {
