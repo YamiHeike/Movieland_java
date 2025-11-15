@@ -1,4 +1,4 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import com.example.movieland.common.BaseControllerTest;
 import com.example.movieland.movie.MovieService;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
-import static com.example.movieland.movie.history.HistoryTestDataSupplier.*;
+import static com.example.movieland.history.HistoryTestDataSupplier.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -54,7 +54,7 @@ public class HistoryControllerTest extends BaseControllerTest {
         // when-then
         given().contentType("application/json")
                 .when()
-                .get("/snapshot-history/%s/%s".formatted(movieId, actorId))
+                .get("/snapshot-history/movies/%s/actors/%s".formatted(movieId, actorId))
                 .then()
                 .statusCode(200)
                 .body("firstName", equalTo(CHANGED_NAME));

@@ -1,10 +1,6 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import com.example.movieland.common.BaseIntegrationTest;
-import com.example.movieland.history.ActorDetailsResponse;
-import com.example.movieland.history.ActorHistoryResponse;
-import com.example.movieland.history.ActorNotCastInMovie;
-import com.example.movieland.history.HistoryService;
 import com.example.movieland.movie.ActorSnapshot;
 import com.example.movieland.movie.MovieService;
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
-import static com.example.movieland.movie.history.HistoryTestDataSupplier.*;
+import static com.example.movieland.history.HistoryTestDataSupplier.*;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
