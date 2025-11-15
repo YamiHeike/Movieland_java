@@ -53,6 +53,11 @@ public class MovieService {
     public Movie update(Movie movie) {
         if(!movieRepository.existsById(movie.getId()))
             throw new MovieNotFound(String.format(NOT_FOUND_MESSAGE.formatted(movie.getId())));
+        movie.getActors().forEach(actor -> {
+            if(!actorService.existsById(actor.id())) {
+                throw new ActorNotFound("Could not create a movie - Actor %s %s not found".formatted(actor.firstName(), actor.lastName()));
+            }
+        });
         return movieRepository.save(movie);
     }
 
