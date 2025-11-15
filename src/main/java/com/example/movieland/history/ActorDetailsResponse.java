@@ -1,4 +1,4 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 public record ActorDetailsResponse(String firstName, String lastName) {
     public static ActorDetailsResponse of(String firstName, String lastName) {

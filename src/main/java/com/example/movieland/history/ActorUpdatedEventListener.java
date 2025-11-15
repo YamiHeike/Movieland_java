@@ -1,4 +1,4 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import com.example.movieland.actor.ActorUpdated;
 import lombok.RequiredArgsConstructor;

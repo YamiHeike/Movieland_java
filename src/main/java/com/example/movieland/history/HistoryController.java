@@ -1,4 +1,4 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

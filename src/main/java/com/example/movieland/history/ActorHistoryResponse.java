@@ -1,4 +1,4 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import java.util.List;
 import java.util.UUID;

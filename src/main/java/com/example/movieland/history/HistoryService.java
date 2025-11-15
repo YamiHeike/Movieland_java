@@ -1,4 +1,4 @@
-package com.example.movieland.movie.history;
+package com.example.movieland.history;
 
 import com.example.movieland.actor.ActorService;
 import com.example.movieland.movie.ActorSnapshot;

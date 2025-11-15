@@ -1,6 +1,10 @@
 package com.example.movieland.movie.history;
 
 import com.example.movieland.common.BaseIntegrationTest;
+import com.example.movieland.history.ActorDetailsResponse;
+import com.example.movieland.history.ActorHistoryResponse;
+import com.example.movieland.history.ActorNotCastInMovie;
+import com.example.movieland.history.HistoryService;
 import com.example.movieland.movie.ActorSnapshot;
 import com.example.movieland.movie.MovieService;
 import org.junit.jupiter.api.AfterEach;
