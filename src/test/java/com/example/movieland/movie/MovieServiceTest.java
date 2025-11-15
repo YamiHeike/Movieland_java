@@ -150,6 +150,8 @@ public class MovieServiceTest extends BaseIntegrationTest {
     @Test
     void updatesMovie() {
         // given
+        var actors = getTestActors();
+        actorService.saveAll(actors);
         var expectedMovie = getTestMovies().getFirst();
         var previousTitle = expectedMovie.getTitle();
         movieService.save(expectedMovie);

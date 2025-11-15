@@ -5,6 +5,8 @@ import com.example.movieland.common.BaseControllerTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 import static com.example.movieland.movie.MovieTestData.getTestActors;
 import static com.example.movieland.movie.MovieTestData.getTestMovies;
 import static io.restassured.RestAssured.given;
@@ -168,6 +170,8 @@ public class MovieControllerTest extends BaseControllerTest {
     @Test
     void updateMovie() {
         // given
+        var actors = getTestActors();
+        actorService.saveAll(actors);
         var movie = getTestMovies().get(4);
         movieService.save(movie);
         movie.setTitle("Matrix Reloaded");
