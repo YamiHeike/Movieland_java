@@ -2,6 +2,8 @@ package com.example.movieland.movie;
 
 import com.example.movieland.actor.Actor;
 import com.example.movieland.actor.CreateActorRequest;
+import com.example.movieland.genre.CreateGenreRequest;
+import com.example.movieland.genre.Genre;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,6 +61,10 @@ public class MovieTestData {
                 List.of(KEANU, CARRIE)
         );
         return List.of(m1, m2, m3, m4, m5, m6);
+    }
+
+    public static List<Genre> getTestGenres() {
+        return List.of(Genre.fromRequest(ACTION_UUID, CreateGenreRequest.of("Action")), Genre.fromRequest(SCI_FI_UUID, CreateGenreRequest.of("Sci-Fi")));
     }
 
     public static List<Actor> getTestActors() {
