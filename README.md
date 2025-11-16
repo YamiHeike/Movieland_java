@@ -103,7 +103,7 @@ Run all integration tests with:
 
 - Controller tests use **RestAssured**
 - Service tests use **AssertJ**
-- Tests run against a temporary containerized MongoDB, so no local database is needed.
+- Tests run against a temporary containerized MongoDB, so no local database is needed. Only Docker is required.
 - Modularity architecture test validates module boundaries and dependencies using Spring Modullith
 
 > If you run tests in Docker, you can mount the Gradle wrapper and source code, then execute `./gradlew test` inside the container.
@@ -116,7 +116,7 @@ Run all integration tests with:
 
 ## Example API Requests
 
-Here are some example `curl` commands you can use to interact with the API:
+Here are some example `curl` commands you can use to interact with the API. Some may require populating the database:
 
 ### Create a Genre
 
