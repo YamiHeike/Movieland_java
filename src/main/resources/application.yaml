@@ -4,4 +4,4 @@ spring:
   data:
     mongodb:
       port: 27017
-      uri: mongodb://localhost:27017/movieland
+      uri: ${MONGODB_URL:mongodb://localhost:27017/movieland}
