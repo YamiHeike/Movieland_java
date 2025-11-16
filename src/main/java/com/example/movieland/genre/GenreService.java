@@ -28,6 +28,10 @@ public class GenreService {
                 .orElseThrow(() -> new GenreNotFound(GENRE_NOT_FOUND.formatted(id)));
     }
 
+    public boolean existsById(@NotNull UUID id) {
+        return genreRepository.existsById(id);
+    }
+
     @Transactional
     public Genre updateGenre(@NotNull Genre genre) {
         if(!genreRepository.existsById(genre.getId()))

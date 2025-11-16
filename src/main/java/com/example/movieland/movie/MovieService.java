@@ -2,6 +2,8 @@ package com.example.movieland.movie;
 
 import com.example.movieland.actor.ActorNotFound;
 import com.example.movieland.actor.ActorService;
+import com.example.movieland.genre.GenreNotFound;
+import com.example.movieland.genre.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import java.util.UUID;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final ActorService actorService;
+    private final GenreService genreService;
     private static final String NOT_FOUND_MESSAGE = "Movie with id %s not found";
 
     public Page<Movie> getMovies(Pageable pageable) {
@@ -40,6 +43,9 @@ public class MovieService {
     public Movie create(CreateMovieRequest request) {
         if(movieRepository.existsByTitleAndReleaseDate(request.title(), request.releaseDate()))
             throw new MovieAlreadyExists("Movie with title %s already exists".formatted(request.title()));
+        if(!genreService.existsById(request.genreId())) {
+            throw new GenreNotFound("Could not create a movie - Genre with ID %s not found".formatted(request.genreId()));
+        }
         request.actors().forEach(actor -> {
             if(!actorService.existsById(actor.id())) {
                 throw new ActorNotFound("Could not create a movie - Actor %s %s not found".formatted(actor.firstName(), actor.lastName()));
@@ -53,9 +59,12 @@ public class MovieService {
     public Movie update(Movie movie) {
         if(!movieRepository.existsById(movie.getId()))
             throw new MovieNotFound(String.format(NOT_FOUND_MESSAGE.formatted(movie.getId())));
+        if(!genreService.existsById(movie.getGenreId())) {
+            throw new GenreNotFound("Could not update movie '%s' - Genre with ID %s not found".formatted(movie.getTitle(), movie.getGenreId()));
+        }
         movie.getActors().forEach(actor -> {
             if(!actorService.existsById(actor.id())) {
-                throw new ActorNotFound("Could not create a movie - Actor %s %s not found".formatted(actor.firstName(), actor.lastName()));
+                throw new ActorNotFound("Could not update a movie - Actor %s %s not found".formatted(actor.firstName(), actor.lastName()));
             }
         });
         return movieRepository.save(movie);
@@ -68,7 +77,6 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
-    @Transactional
     public void save(Movie movie) {
         movieRepository.save(movie);
     }
