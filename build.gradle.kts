@@ -50,4 +50,8 @@ dependencyManagement {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	testLogging {
+		events("started", "passed", "skipped", "failed")
+		showStandardStreams = true
+	}
 }
